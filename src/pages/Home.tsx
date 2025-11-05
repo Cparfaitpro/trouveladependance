@@ -71,10 +71,7 @@ export default function Home() {
 
               {/* Bouton démarrer */}
               <br></br>
-              <Button
-                onClick={handleStart}
-                className=""
-              >
+              <Button onClick={handleStart} className="">
                 Lancer l'enquête
               </Button>
             </div>
