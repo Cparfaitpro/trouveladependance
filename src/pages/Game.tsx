@@ -1,5 +1,5 @@
 // src/pages/Game.tsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -15,7 +15,6 @@ export default function Game() {
   // États locaux
   const [selectedQCU, setSelectedQCU] = useState<number | null>(null);
   const [selectedQCM, setSelectedQCM] = useState<number[]>([]);
-  const [inputLibre, setInputLibre] = useState('');
   const [selectedDoc, setSelectedDoc] = useState<number | null>(null); // Document choisi
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -27,9 +26,15 @@ export default function Game() {
     return null;
   }
 
+  useEffect(() => {
+    if (!team || team.trim() === '') {
+      navigate('/', { replace: true });
+    }
+  }, [team, navigate]);
+
   /** Vérifie la réponse principale */
   /** Vérifie la réponse principale */
-const checkMainAnswer = (): boolean => {
+  const checkMainAnswer = (): boolean => {
   // SÉCURITÉ : forcer correct en tableau
   const correctArray = Array.isArray(question.correct) ? question.correct : [];
 
@@ -51,11 +56,6 @@ const checkMainAnswer = (): boolean => {
         sortedSelected.every((val, i) => val === sortedCorrect[i])
     );
 }
-
-  if (question.type === 'Libre') {
-    const answer = question.options[correctArray[0]];
-    return inputLibre.trim().toLowerCase() === (answer || '').toLowerCase();
-  }
 
   return false;
 };
@@ -80,6 +80,17 @@ const checkDocBonus = (): boolean => {
     const bonus = docCorrect ? 1 : 0;
     setScore(score + (mainCorrect ? 1 : 0) + bonus);
   };
+  
+  useEffect(() => {
+  const unloadCallback = (event: { preventDefault: () => void; returnValue: string; }) => {
+    event.preventDefault();
+    event.returnValue = "";
+    return "";
+  };
+
+  window.addEventListener("beforeunload", unloadCallback);
+  return () => window.removeEventListener("beforeunload", unloadCallback);
+}, []);
 
   /** Question suivante */
   const goNext = () => {
@@ -91,7 +102,6 @@ const checkDocBonus = (): boolean => {
       // Reset
       setSelectedQCU(null);
       setSelectedQCM([]);
-      setInputLibre('');
       setSelectedDoc(null);
       setShowResult(false);
       setIsCorrect(false);
@@ -105,7 +115,7 @@ const checkDocBonus = (): boolean => {
         <Card className="p-6 space-y-6 bg-slate-800/90 text-slate-100">
           {/* En-tête */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <h1 className="text-2xl font-bold">Brigade : {team || 'Anonyme'}</h1>
+            <h1 className="text-2xl font-bold">Brigade : {team}</h1>
             <div className="flex gap-4 text-lg">
               <span>Question <strong>{currentQuestion + 1}</strong>/{questions.length}</span>
               <span>Score : <strong>{score}</strong></span>
@@ -136,73 +146,60 @@ const checkDocBonus = (): boolean => {
             )}
 
             {/* QCM : Cases à cocher */}
-            {question.type === 'QCM' && (
-            <div className="space-y-3">
-                {question.options.map((opt, idx) => {
-                // === SÉCURITÉ : correct est un tableau ===
-                const correctArray = Array.isArray(question.correct) ? question.correct : [];
-                const isChecked = Array.isArray(selectedQCM)
-                    ? selectedQCM.indexOf(idx) !== -1
-                    : false;
+        {question.type === 'QCM' && (
+        <div className="space-y-3">
+            {question.options.map((opt, idx) => {
+            // === SÉCURITÉ : correct est un tableau ===
+            const correctArray = Array.isArray(question.correct) ? question.correct : [];
+            const isChecked = Array.isArray(selectedQCM)
+                ? selectedQCM.indexOf(idx) !== -1
+                : false;
 
-                // Feedback visuel : vert si correct, rouge si faux
-                const isCorrectAnswer = correctArray.indexOf(idx) !== -1;
-                const showCorrect = showResult && isCorrectAnswer;
-                const showWrong = showResult && isChecked && !isCorrectAnswer;
+            // Feedback visuel : vert si correct, rouge si faux
+            const isCorrectAnswer = correctArray.indexOf(idx) !== -1;
+            const showCorrect = showResult && isCorrectAnswer;
+            const showWrong = showResult && isChecked && !isCorrectAnswer;
 
-                return (
-                    <label
-                    key={idx}
-                    className={`
-                        flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all select-none
-                        ${showResult
-                        ? showCorrect
-                            ? 'bg-green-600 text-white font-medium'
-                            : showWrong
-                            ? 'bg-red-600 text-white font-medium'
-                            : 'bg-slate-700 text-slate-300'
-                        : isChecked
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-slate-700 hover:bg-slate-600 text-slate-200'
-                        }
-                        ${showResult ? 'cursor-default' : ''}
-                    `}
-                    >
-                    <input
-                        type="checkbox"
-                        checked={isChecked}
-                        disabled={showResult}
-                        onChange={() => {
-                        setSelectedQCM(prev => {
-                            const arr = Array.isArray(prev) ? prev : [];
-                            return arr.indexOf(idx) !== -1
-                            ? arr.filter(i => i !== idx)
-                            : [...arr, idx];
-                        });
-                        }}
-                        className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
-                    />
-                    <span>
-                        {idx + 1}. {opt}
-                    </span>
-                    </label>
-                );
-                })}
-            </div>
-            )}
-
-            {/* Libre : Champ texte */}
-            {question.type === 'Libre' && (
-              <input
-                type="text"
-                value={inputLibre}
-                onChange={(e) => setInputLibre(e.target.value)}
-                disabled={showResult}
-                placeholder="Votre réponse..."
-                className="w-full p-3 rounded-lg bg-slate-700 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            )}
-
+            return (
+                <label
+                key={idx}
+                className={`
+                    flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all select-none
+                    ${showResult
+                    ? showCorrect
+                        ? 'bg-green-600 text-white font-medium'
+                        : showWrong
+                        ? 'bg-red-600 text-white font-medium'
+                        : 'bg-slate-700 text-slate-300'
+                    : isChecked
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-slate-700 hover:bg-slate-600 text-slate-200'
+                    }
+                    ${showResult ? 'cursor-default' : ''}
+                `}
+                >
+                <input
+                    type="checkbox"
+                    checked={isChecked}
+                    disabled={showResult}
+                    onChange={() => {
+                    setSelectedQCM(prev => {
+                        const arr = Array.isArray(prev) ? prev : [];
+                        return arr.indexOf(idx) !== -1
+                        ? arr.filter(i => i !== idx)
+                        : [...arr, idx];
+                    });
+                    }}
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                />
+                <span>
+                    {idx + 1}. {opt}
+                </span>
+                </label>
+            );
+            })}
+        </div>
+        )}
             {/* === CHOIX DU DOCUMENT (BONUS) === */}
             <div className="border-t border-slate-600 pt-4">
               <p className="text-sm font-medium text-slate-300 mb-2">
@@ -246,8 +243,7 @@ const checkDocBonus = (): boolean => {
               onClick={handleSubmit}
               disabled={
                 (question.type === 'QCU' && selectedQCU === null) ||
-                (question.type === 'QCM' && selectedQCM.length === 0) ||
-                (question.type === 'Libre' && !inputLibre.trim())
+                (question.type === 'QCM' && selectedQCM.length === 0)
               }
               className="w-full"
             >
