@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Card }from '../components/ui/Card';
 import { useGame } from '../context/GameContext';
+import Layout from '../components/ui/Layout';
 
 export default function Home() {
   const [teamName, setTeamName] = useState('');
@@ -76,13 +77,8 @@ export default function Home() {
               </Button>
             </div>
           </Card>
-
-          {/* Infos bas de page */}
-          <div className="text-center text-xs text-slate-400 space-y-1">
-            <p>Jeu éducatif de prévention des addictions</p>
-            <p>Conçu pour la sensibilisation • Pas de stigmatisation</p>
-          </div>
         </div>
+        <Layout/>
       </div>
   );
 }

@@ -7,6 +7,7 @@ import { useGame } from '../context/GameContext';
 import { questions } from '../data/questions';
 import { documents } from '../data/documents';
 import HeaderGame from '../components/ui/HeaderGame';
+import Layout from '../components/ui/Layout';
 
 export default function Game() {
   const navigate = useNavigate();
@@ -111,99 +112,27 @@ const checkDocBonus = (): boolean => {
   };
 
   return (
-    <div className="min-h-screen p-4">
+    <><div className="min-h-screen p-4">
       {/* === HEADER FIXE === */}
       {/* HEADER FIXE */}
-      <HeaderGame 
-        team={team} 
-        currentQuestion={currentQuestion} 
-        numQuestion={questions.length} 
-        score={score} 
-      /> 
+      <HeaderGame
+        team={team}
+        currentQuestion={currentQuestion}
+        numQuestion={questions.length}
+        score={score} />
       {/* === ESPACE VERTICAL POUR HEADER === */}
       <div className="pt-20"></div>
 
       {/* === CONTENU PRINCIPAL === */}
       <div className="max-w-none">
         <div className="grid lg:grid-cols-12 gap-6">
-        {/* === RÉPONSES === */}
-              <div className="lg:col-span-3 space-y-5">
-
-                {/* QCU */}
-                {question.type === 'QCU' && (
-                  <select
-                    value={selectedQCU ?? ''}
-                    onChange={(e) => setSelectedQCU(Number(e.target.value))}
-                    disabled={showResult}
-                    className="w-full p-4 text-lg rounded-xl bg-slate-700/80 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                  >
-                    <option value="" disabled>Choisissez une réponse...</option>
-                    {question.options.map((opt, idx) => (
-                      <option key={idx} value={idx} className="py-2">
-                        {idx + 1}. {opt}
-                      </option>
-                    ))}
-                  </select>
-                )}
-
-                {/* QCM */}
-                {question.type === 'QCM' && (
-                  <div className="space-y-3">
-                    {question.options.map((opt, idx) => {
-                      const correctArray = Array.isArray(question.correct) ? question.correct : [];
-                      const isChecked = Array.isArray(selectedQCM) ? selectedQCM.indexOf(idx) !== -1 : false;
-                      const isCorrectAnswer = correctArray.indexOf(idx) !== -1;
-                      const showCorrect = showResult && isCorrectAnswer;
-                      const showWrong = showResult && isChecked && !isCorrectAnswer;
-
-                      return (
-                        <label
-                          key={idx}
-                          className={`
-                            flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all select-none text-lg
-                            ${showResult
-                              ? showCorrect
-                                ? 'bg-green-600/90 text-white font-medium shadow-lg'
-                                : showWrong
-                                  ? 'bg-red-600/90 text-white font-medium shadow-lg'
-                                  : 'bg-slate-700/70 text-slate-300'
-                              : isChecked
-                                ? 'bg-blue-600/90 text-white shadow-md'
-                                : 'bg-slate-700/70 hover:bg-slate-600/80 text-slate-200 border border-slate-600'
-                            }
-                            ${showResult ? 'cursor-default' : ''}
-                          `}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            disabled={showResult}
-                            onChange={() => {
-                              setSelectedQCM(prev => {
-                                const arr = Array.isArray(prev) ? prev : [];
-                                return arr.indexOf(idx) !== -1
-                                  ? arr.filter(i => i !== idx)
-                                  : [...arr, idx];
-                              });
-                            }}
-                            className="w-6 h-6 text-blue-500 rounded focus:ring-2 focus:ring-blue-400"
-                          />
-                          <span>{idx + 1}. {opt}</span>
-                        </label>
-                      );
-                    })}
-                  </div>
-                )}
-          </div>
           {/* === ZONE CENTRALE : QUESTION + RÉPONSES (gauche + milieu) === */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-9 space-y-6">
             {/* Bulle de discussion (futur fond) */}
-            <div className="relative bg-gradient-to-b from-slate-800/90 to-slate-700/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-600">
-              {/* Icône bulle */}
-              <div className="absolute -top-3 left-8 w-6 h-6 bg-slate-700 rotate-45 border-l border-t border-slate-600"></div>
+            <div className="relative bg-gradient-to-w from-slate-800/90 to-slate-700/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-600">
 
               {/* Question */}
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 leading-tight">
                 {question.text}
               </h2>
             </div>
@@ -211,10 +140,8 @@ const checkDocBonus = (): boolean => {
             {!showResult && (
               <Button
                 onClick={handleSubmit}
-                disabled={
-                  (question.type === 'QCU' && selectedQCU === null) ||
-                  (question.type === 'QCM' && selectedQCM.length === 0)
-                }
+                disabled={(question.type === 'QCU' && selectedQCU === null) ||
+                  (question.type === 'QCM' && selectedQCM.length === 0)}
                 className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg"
               >
                 Valider la réponse
@@ -222,8 +149,73 @@ const checkDocBonus = (): boolean => {
             )}
           </div>
 
-          {/* === PANNEAU DROIT : DOCUMENT (bonus) === */}
+          {/* === PANNEAU DROIT : RÉPONSES & DOCUMENT (bonus) === */}
           <div className="lg:col-span-3">
+            {/* QCU */}
+            {question.type === 'QCU' && (
+              <select
+                value={selectedQCU ?? ''}
+                onChange={(e) => setSelectedQCU(Number(e.target.value))}
+                disabled={showResult}
+                className="w-full p-4 text-lg rounded-xl bg-slate-700/80 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              >
+                <option value="" disabled>Choisissez une réponse...</option>
+                {question.options.map((opt, idx) => (
+                  <option key={idx} value={idx} className="py-2">
+                    {idx + 1}. {opt}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {/* QCM */}
+            {question.type === 'QCM' && (
+              <div className="space-y-3">
+                {question.options.map((opt, idx) => {
+                  const correctArray = Array.isArray(question.correct) ? question.correct : [];
+                  const isChecked = Array.isArray(selectedQCM) ? selectedQCM.indexOf(idx) !== -1 : false;
+                  const isCorrectAnswer = correctArray.indexOf(idx) !== -1;
+                  const showCorrect = showResult && isCorrectAnswer;
+                  const showWrong = showResult && isChecked && !isCorrectAnswer;
+
+                  return (
+                    <label
+                      key={idx}
+                      className={`
+                            flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all select-none text-lg
+                            ${showResult
+                          ? showCorrect
+                            ? 'bg-green-600/90 text-white font-medium shadow-lg'
+                            : showWrong
+                              ? 'bg-red-600/90 text-white font-medium shadow-lg'
+                              : 'bg-slate-700/70 text-slate-300'
+                          : isChecked
+                            ? 'bg-blue-600/90 text-white shadow-md'
+                            : 'bg-slate-700/70 hover:bg-slate-600/80 text-slate-200 border border-slate-600'}
+                            ${showResult ? 'cursor-default' : ''}
+                          `}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        disabled={showResult}
+                        onChange={() => {
+                          setSelectedQCM(prev => {
+                            const arr = Array.isArray(prev) ? prev : [];
+                            return arr.indexOf(idx) !== -1
+                              ? arr.filter(i => i !== idx)
+                              : [...arr, idx];
+                          });
+                        } }
+                        className="w-6 h-6 text-blue-500 rounded focus:ring-2 focus:ring-blue-400" />
+                      <span>{idx + 1}. {opt}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+            <br></br>
+            <br></br>
             <Card className="h-full bg-slate-800/90 border-slate-700 p-6 space-y-5 shadow-xl">
               <h3 className="text-lg font-bold text-blue-400 flex items-center gap-2">
                 Document de référence
@@ -288,12 +280,8 @@ const checkDocBonus = (): boolean => {
             </Card>
           </div>
         )}
-
-        {/* === FOOTER === */}
-        <footer className="mt-12 text-center text-xs text-slate-500">
-          <p>Jeu éducatif • Prévention des addictions • Sensibilisation sans stigmatisation</p>
-        </footer>
       </div>
     </div>
+    <Layout /></>
   );
 }
