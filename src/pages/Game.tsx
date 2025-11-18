@@ -112,7 +112,7 @@ const checkDocBonus = (): boolean => {
   };
 
   return (
-    <><div className="min-h-screen p-4">
+    <><div className="min-h-screen p-4 bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center">
       {/* === HEADER FIXE === */}
       {/* HEADER FIXE */}
       <HeaderGame
@@ -129,7 +129,7 @@ const checkDocBonus = (): boolean => {
           {/* === ZONE CENTRALE : QUESTION + RÉPONSES (gauche + milieu) === */}
           <div className="lg:col-span-9 space-y-6">
             {/* Bulle de discussion (futur fond) */}
-            <div className="relative bg-gradient-to-w from-slate-800/90 to-slate-700/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-600">
+            <div className="relative bg-white from-slate-800/90 to-slate-700/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-600">
 
               {/* Question */}
               <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 leading-tight">
@@ -280,7 +280,6 @@ const checkDocBonus = (): boolean => {
           </div>
         </div>
       </div>
-    </div>
-    <Layout /></>
+    </div><Layout /></>
   );
 }
