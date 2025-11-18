@@ -147,6 +147,36 @@ const checkDocBonus = (): boolean => {
                 Valider la réponse
               </Button>
             )}
+            {/* === RÉSULTAT APRÈS SOUMISSION === */}
+            {showResult && (
+              <div className="mt-8 max-w-7xl mx-auto">
+                <Card className="bg-slate-800/90 p-6 md:p-8 space-y-5">
+                  <div
+                    className={`
+                      text-center p-5 rounded-xl text-2xl font-bold
+                      ${isCorrect ? 'bg-green-600/90 text-green-100' : 'bg-red-600/90 text-red-100'}
+                    `}
+                  >
+                    {isCorrect ? 'Bonne réponse !' : 'Réponse incorrecte'}
+                  </div>
+
+                  {isDocCorrect && (
+                    <div className="text-center p-4 bg-green-600/90 text-green-100 rounded-xl font-medium">
+                      +1 point bonus pour le document !
+                    </div>
+                  )}
+
+                  <p className="text-slate-300 italic leading-relaxed">{question.explanation}</p>
+
+                  <Button
+                    onClick={goNext}
+                    className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
+                  >
+                    {currentQuestion + 1 === questions.length ? 'Voir les résultats' : 'Question suivante'}
+                  </Button>
+                </Card>
+              </div>
+            )}
           </div>
 
           {/* === PANNEAU DROIT : RÉPONSES & DOCUMENT (bonus) === */}
@@ -249,37 +279,6 @@ const checkDocBonus = (): boolean => {
             </Card>
           </div>
         </div>
-
-        {/* === RÉSULTAT APRÈS SOUMISSION === */}
-        {showResult && (
-          <div className="mt-8 max-w-7xl mx-auto">
-            <Card className="bg-slate-800/90 p-6 md:p-8 space-y-5">
-              <div
-                className={`
-                  text-center p-5 rounded-xl text-2xl font-bold
-                  ${isCorrect ? 'bg-green-600/90 text-green-100' : 'bg-red-600/90 text-red-100'}
-                `}
-              >
-                {isCorrect ? 'Bonne réponse !' : 'Réponse incorrecte'}
-              </div>
-
-              {isDocCorrect && (
-                <div className="text-center p-4 bg-green-600/90 text-green-100 rounded-xl font-medium">
-                  +1 point bonus pour le document !
-                </div>
-              )}
-
-              <p className="text-slate-300 italic leading-relaxed">{question.explanation}</p>
-
-              <Button
-                onClick={goNext}
-                className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-              >
-                {currentQuestion + 1 === questions.length ? 'Voir les résultats' : 'Question suivante'}
-              </Button>
-            </Card>
-          </div>
-        )}
       </div>
     </div>
     <Layout /></>
