@@ -22,6 +22,32 @@ export default function Game() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [isDocCorrect, setIsDocCorrect] = useState(false);
 
+  useEffect(() => {
+    // Empêcher zoom via clavier (Ctrl + +/-)
+    const handleKeyDown = (event: { ctrlKey: any; metaKey: any; key: string; preventDefault: () => void; }) => {
+      if (event.ctrlKey || event.metaKey) { // metaKey pour Mac (Command)
+        if (event.key === '+' || event.key === '-' || event.key === '=') {
+          event.preventDefault();
+        }
+      }
+    };
+
+    // Empêcher zoom via roulette + Ctrl
+    const handleWheel = (event: { ctrlKey: any; metaKey: any; preventDefault: () => void; }) => {
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   const question = questions[currentQuestion];
   if (!question) {
     navigate('/fin');
@@ -112,7 +138,7 @@ const checkDocBonus = (): boolean => {
   };
 
   return (
-    <><div className="min-h-screen p-4 bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center">
+    <><div className="min-h-screen bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center">
       {/* === HEADER FIXE === */}
       {/* HEADER FIXE */}
       <HeaderGame
@@ -125,7 +151,7 @@ const checkDocBonus = (): boolean => {
 
       {/* === CONTENU PRINCIPAL === */}
       <div className="max-w-none">
-        <div className="grid lg:grid-cols-12 gap-6">
+        <div className="grid lg:grid-cols-12 gap-6 p-4">
           {/* === ZONE CENTRALE : QUESTION + RÉPONSES (gauche + milieu) === */}
           <div className="lg:col-span-9 space-y-6">
             {/* Bulle de discussion (futur fond) */}
@@ -278,6 +304,20 @@ const checkDocBonus = (): boolean => {
               )}
             </Card>
           </div>
+        </div>
+        {/* Div Images personnage + Bureau*/}
+        <div className="mt-6 w-full flex flex-col items-center relative bottom-0"> {/* Conteneur global pleine largeur, flex column pour coller les éléments */}
+          <img 
+            src={question.img} 
+            alt="Personnage" 
+            className="w-auto max-w-[50%] md:max-w-[40%] h-auto object-contain relative" // Centré, proportionnel (720x1018 ratio ~0.7), max-w pour réalisme, z-10 pour chevauchement
+            style={{ marginBottom: '-5%' }} // Chevauchement négatif pour "coller" au bureau (ajuste -5% selon besoin)
+          />
+          <img 
+            src="/src/styles/img/table.png" // Remplace par chemin réel
+            alt="Table" 
+            className="w-full h-auto object-cover relative bottom-0" // Pleine largeur écran, hauteur naturelle (1018x146 ratio ~7), en bas
+          />
         </div>
       </div>
     </div><Layout /></>
