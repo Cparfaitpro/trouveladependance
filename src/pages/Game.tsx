@@ -50,7 +50,7 @@ export default function Game() {
 
   const question = questions[currentQuestion];
   if (!question) {
-    navigate('/fin');
+    navigate('/trouveladependance/fin');
     return null;
   }
 
@@ -124,7 +124,7 @@ const checkDocBonus = (): boolean => {
   const goNext = () => {
     const next = currentQuestion + 1;
     if (next >= questions.length) {
-      navigate('/fin');
+      navigate('/trouveladependance/fin');
     } else {
       setCurrentQuestion(next);
       // Reset
@@ -138,7 +138,7 @@ const checkDocBonus = (): boolean => {
   };
 
   return (
-    <><div className="min-h-screen bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center">
+    <><div className="min-h-screen bg-[url('/assets/img/background.JPG')] bg-cover bg-center">
       {/* === HEADER FIXE === */}
       {/* HEADER FIXE */}
       <HeaderGame
@@ -312,9 +312,10 @@ const checkDocBonus = (): boolean => {
             style={{ marginBottom: '-5%' }} // Chevauchement négatif pour "coller" au bureau (ajuste -5% selon besoin)
           />
           <img 
-            src="/src/styles/img/table.png" // Remplace par chemin réel
+            src="assets/img/table.PNG" // Remplace par chemin réel
             alt="Table" 
             className="w-full h-auto object-cover relative bottom-0" // Pleine largeur écran, hauteur naturelle (1018x146 ratio ~7), en bas
+            onError={(e) => console.error('Image load error:', e)}
           />
         </div>
       </div>

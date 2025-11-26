@@ -23,11 +23,11 @@ export default function Home() {
     setTeam(teamName);
     setIsTimerEnabled(!disableTimer); // ← Activer si NON coché
     // Redirige vers le jeu
-    navigate('/game');
+    navigate('/trouveladependance/game');
   };
 
   return (
-    <div className="min-h-screen bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center text-slate-100 flex items-center justify-center">
+    <div className="min-h-screen bg-[url('/assets/img/background.JPG')] bg-cover bg-center text-slate-100 flex items-center justify-center">
       <div className="w-full max-w-md space-y-8 bg-slate-900/80 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-2xl">
         {/* Titre principal */}
         <div className="text-center">

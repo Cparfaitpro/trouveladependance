@@ -22,7 +22,7 @@ export default function Timer({ minutes, seconds }: TimerProps) {
     }
 
     if (timeLeft <= 0) {
-      navigate('/fin');
+      navigate('/trouveladependance/fin');
       return;
     }
 
