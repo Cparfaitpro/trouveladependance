@@ -26,7 +26,7 @@ export default function Fin() {
   const maxPossibleScore = questions.length * 2; // 1 point par question + 1 point bonus doc max
 
   return (
-    <div className="min-h-screen bg-[url('/path/to/victory-background.jpg')] bg-cover bg-center flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center flex items-center justify-center p-4">
       {/* Fond semi-transparent global pour lisibilité parfaite sur image */}
       <div className="w-full max-w-2xl">
         <Card className="bg-slate-900/95 backdrop-blur-xl border-slate-700 p-8 md:p-12 rounded-3xl shadow-2xl text-center space-y-10">

@@ -1,4 +1,4 @@
-// src/pages/Home.tsx
+// src/pages/Home.tsx (ajouter checkbox pour désactiver)
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
@@ -11,7 +11,9 @@ export default function Home() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const { setTeam } = useGame();
+  const { setTeam, setIsTimerEnabled } = useGame();
+  const [disableTimer, setDisableTimer] = useState(false); // ← État local pour checkbox
+
   const handleStart = () => {
     if (!teamName.trim()) {
       setError('Veuillez remplir tous les champs');
@@ -19,14 +21,14 @@ export default function Home() {
     }
     // Sauvegarde dans le contexte global
     setTeam(teamName);
+    setIsTimerEnabled(!disableTimer); // ← Activer si NON coché
     // Redirige vers le jeu
     navigate('/game');
   };
 
   return (
     <div className="min-h-screen bg-[url('/src/styles/img/background.JPG')] bg-cover bg-center text-slate-100 flex items-center justify-center">
-      {/* Pas d'espace entre bg et contenu */}
-      <div className="w-full max-w-md space-y-8 bg-slate-900/80 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-2xl"> {/* Div pour lisibilité sur image */}
+      <div className="w-full max-w-md space-y-8 bg-slate-900/80 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-2xl">
         {/* Titre principal */}
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">
@@ -57,6 +59,19 @@ export default function Home() {
                 }}
                 className="w-full p-3 rounded-lg bg-slate-700/80 text-slate-100 placeholder-slate-400 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
+            </div>
+
+            {/* Checkbox pour désactiver timer */}
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                checked={disableTimer}
+                onChange={(e) => setDisableTimer(e.target.checked)}
+                className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+              />
+              <label className="text-sm text-slate-200">
+                Désactiver le timer
+              </label>
             </div>
 
             {/* Erreur */}

@@ -192,8 +192,6 @@ const checkDocBonus = (): boolean => {
                     </div>
                   )}
 
-                  <p className="text-slate-300 italic leading-relaxed">{question.explanation}</p>
-
                   <Button
                     onClick={goNext}
                     className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"

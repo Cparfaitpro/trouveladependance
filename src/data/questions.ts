@@ -6,7 +6,6 @@ export type Question = {
     options: string[];
     correct: number[]; // A lire en commençant par 0, première option = 0, deuxième option = 1 ect..
     correct_doc : number[];
-    explanation: string;
     img: string;
   };
   
@@ -28,7 +27,7 @@ export const questions: Question[] = [
       ],
       correct: [8],
       correct_doc: [2],
-      explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+      
       img: "/src/styles/img/Leo.png"
     },
     {
@@ -48,7 +47,7 @@ export const questions: Question[] = [
         ],
         correct: [4],
         correct_doc: [1],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Guy.png"
       },{
         id: 3,
@@ -67,7 +66,7 @@ export const questions: Question[] = [
         ],
         correct: [6],
         correct_doc: [4,6],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Sarah.png"
       },{
         id: 4,
@@ -86,7 +85,7 @@ export const questions: Question[] = [
         ],
         correct: [0],
         correct_doc: [2,3],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Igor.png"
       },{
         id: 5,
@@ -105,7 +104,7 @@ export const questions: Question[] = [
         ],
         correct: [5],
         correct_doc: [5,7],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Alex.png"
       },{
         id: 6,
@@ -124,7 +123,7 @@ export const questions: Question[] = [
         ],
         correct: [2],
         correct_doc:[1,6],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Ema.png"
       },{
         id: 7,
@@ -143,7 +142,7 @@ export const questions: Question[] = [
         ],
         correct: [7],
         correct_doc: [4,5],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/JeanN.png"
       },{
         id: 8,
@@ -162,7 +161,7 @@ export const questions: Question[] = [
         ],
         correct: [1],
         correct_doc: [1,2],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Paul.png"
       },{
         id: 9,
@@ -181,7 +180,7 @@ export const questions: Question[] = [
         ],
         correct: [2],
         correct_doc: [5],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Remi.png"
       },{
         id: 10,
@@ -200,7 +199,6 @@ export const questions: Question[] = [
         ],
         correct: [0],
         correct_doc: [6],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
         img: "/src/styles/img/JeanB.png"
       },{
         id: 11,
@@ -219,7 +217,7 @@ export const questions: Question[] = [
         ],
         correct: [1],
         correct_doc: [2,7],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Anna.png"
       },{
         id: 12,
@@ -238,7 +236,7 @@ export const questions: Question[] = [
         ],
         correct: [3],
         correct_doc: [4,5],
-        explanation: "C’est un signe d’hyperconnexion. Le cerveau associe l’écran à la récompense.",
+        
         img: "/src/styles/img/Jack.png"
       }
   ];

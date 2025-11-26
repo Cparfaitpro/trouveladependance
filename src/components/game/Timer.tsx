@@ -1,6 +1,7 @@
-// src/components/Timer.tsx
+// src/components/Timer.tsx (conditionner la redirection et le décrément)
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGame } from '../../context/GameContext';
 
 interface TimerProps {
   minutes: number;
@@ -9,11 +10,19 @@ interface TimerProps {
 
 export default function Timer({ minutes, seconds }: TimerProps) {
   const navigate = useNavigate();
+  const { state } = useGame();
+  const { isTimerEnabled } = state;
+
   const [timeLeft, setTimeLeft] = useState(minutes * 60 + seconds);
 
   useEffect(() => {
+    if (!isTimerEnabled) {
+      // Si désactivé, ne rien faire (pas de décrément, pas de redirection)
+      return;
+    }
+
     if (timeLeft <= 0) {
-      navigate('/fin', { replace: true });
+      navigate('/fin');
       return;
     }
 
@@ -22,17 +31,18 @@ export default function Timer({ minutes, seconds }: TimerProps) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft, navigate]);
+  }, [timeLeft, navigate, isTimerEnabled]);
+
+  if (!isTimerEnabled) {
+    return null; // Ne rien afficher si désactivé
+  }
 
   const displayMinutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
   const displaySeconds = (timeLeft % 60).toString().padStart(2, '0');
 
   return (
-    <div className="flex items-center gap-2">
-        <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      <span className="font-mono text-lg text-yellow-400">{displayMinutes}:{displaySeconds}</span>
-    </div>
+    <span className="font-mono text-lg text-yellow-400">
+      {displayMinutes}:{displaySeconds}
+    </span>
   );
 }
