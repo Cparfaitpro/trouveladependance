@@ -138,7 +138,10 @@ const checkDocBonus = (): boolean => {
   };
 
   return (
-    <><div className="min-h-screen bg-[url('/assets/img/background.JPG')] bg-cover bg-center">
+   
+    <>
+    {/* Div Contenu */}
+    <div className="min-h-screen bg-[url('/assets/img/background.JPG')] bg-cover bg-center">
       {/* === HEADER FIXE === */}
       {/* HEADER FIXE */}
       <HeaderGame
@@ -153,7 +156,7 @@ const checkDocBonus = (): boolean => {
       <div className="max-w-none">
         <div className="grid lg:grid-cols-12 gap-6 p-4">
           {/* === ZONE CENTRALE : QUESTION + RÉPONSES (gauche + milieu) === */}
-          <div className="lg:col-span-9 space-y-6">
+          <div className="lg:col-span-4 space-y-6">
             {/* Bulle de discussion (futur fond) */}
             <div className="relative bg-white from-slate-800/90 to-slate-700/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-600">
 
@@ -202,9 +205,12 @@ const checkDocBonus = (): boolean => {
               </div>
             )}
           </div>
+          {/* Div fantome*/}
+          <div className="lg:col-span-4 mt-6 w-full flex flex-col items-center relative bottom-0"> {/* Conteneur global pleine largeur, flex column pour coller les éléments */}
+          </div>
 
           {/* === PANNEAU DROIT : RÉPONSES & DOCUMENT (bonus) === */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-4">
             {/* QCU */}
             {question.type === 'QCU' && (
               <select
@@ -303,20 +309,27 @@ const checkDocBonus = (): boolean => {
             </Card>
           </div>
         </div>
-        {/* Div Images personnage + Bureau*/}
-        <div className="mt-6 w-full flex flex-col items-center relative bottom-0"> {/* Conteneur global pleine largeur, flex column pour coller les éléments */}
-          <img 
-            src={question.img} 
-            alt="Personnage" 
-            className="w-auto max-w-[50%] md:max-w-[40%] h-auto object-contain relative" // Centré, proportionnel (720x1018 ratio ~0.7), max-w pour réalisme, z-10 pour chevauchement
-            style={{ marginBottom: '-5%' }} // Chevauchement négatif pour "coller" au bureau (ajuste -5% selon besoin)
-          />
-          <img 
-            src="assets/img/table.PNG" // Remplace par chemin réel
-            alt="Table" 
-            className="w-full h-auto object-cover relative bottom-0" // Pleine largeur écran, hauteur naturelle (1018x146 ratio ~7), en bas
-            onError={(e) => console.error('Image load error:', e)}
-          />
+              {/* === SUPERPOSITION PERSONNAGE + TABLE (sans bloquer les interactions) === */}
+        <div className="fixed inset-x-0 bottom-0 z-10 pointer-events-none">
+          <div className="relative w-full h-full flex justify-center">
+            {/* Personnage centré et au-dessus de la table */}
+            <img
+              src={question.img}
+              alt="Personnage"
+              className="relative z-5 w-auto max-w-[60%] lg:max-w-[50%] h-auto object-contain drop-shadow-2xl pointer-events-none"
+              style={{ 
+                transform: 'translateY(-20%)', // Ajuste selon ton image pour qu'il soit bien "assise"
+                maxHeight: '70vh'
+              }}
+            />
+
+            {/* Table pleine largeur, en dessous du personnage */}
+            <img
+              src="assets/img/table.PNG"
+              alt="Bureau"
+              className="absolute bottom-0 left-0 w-full h-auto z-10 pointer-events-none"
+            />
+          </div>
         </div>
       </div>
     </div><Layout /></>
