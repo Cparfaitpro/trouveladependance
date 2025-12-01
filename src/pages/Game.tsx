@@ -178,8 +178,8 @@ const checkDocBonus = (): boolean => {
             )}
             {/* === RÉSULTAT APRÈS SOUMISSION === */}
             {showResult && (
-              <div className="mt-8 max-w-7xl mx-auto">
-                <Card className="bg-slate-800/90 p-6 md:p-8 space-y-5">
+              <div className="mt-8 max-w-7xl mx-auto relative">
+                <Card className="bg-slate-800/90 p-6 md:p-8 space-y-5 absolute z-20">
                   <div
                     className={`
                       text-center p-5 rounded-xl text-2xl font-bold
@@ -309,28 +309,42 @@ const checkDocBonus = (): boolean => {
             </Card>
           </div>
         </div>
-              {/* === SUPERPOSITION PERSONNAGE + TABLE (sans bloquer les interactions) === */}
-        <div className="fixed inset-x-0 bottom-0 z-10 pointer-events-none">
-          <div className="relative w-full h-full flex justify-center">
-            {/* Personnage centré et au-dessus de la table */}
-            <img
-              src={question.img}
-              alt="Personnage"
-              className="relative z-5 w-auto max-w-[60%] lg:max-w-[50%] h-auto object-contain drop-shadow-2xl pointer-events-none"
-              style={{ 
-                transform: 'translateY(-20%)', // Ajuste selon ton image pour qu'il soit bien "assise"
-                maxHeight: '70vh'
-              }}
-            />
+        {/* === DIV IMAGE : ADAPTATIVE MOBILE / DESKTOP === */}
+<div className="w-full">
+  {/* VERSION MOBILE : empilé normalement (pas de superposition) */}
+  <div className="block relative md:hidden">
+    {/* Personnage */}
+    <div className="flex justify-center py-4">
+      <img
+        src={question.img}
+        alt="Personnage"
+        className="relative z-10 w-auto max-w-[80%] h-auto object-contain drop-shadow-2xl"
+      />
+    </div>
+  </div>
 
-            {/* Table pleine largeur, en dessous du personnage */}
-            <img
-              src="assets/img/table.PNG"
-              alt="Bureau"
-              className="absolute bottom-0 left-0 w-full h-auto z-10 pointer-events-none"
-            />
-          </div>
-        </div>
+  {/* VERSION DESKTOP/TABLETTE : superposition fixe en bas */}
+  <div className="hidden md:block fixed inset-x-0 bottom-0 z-10 pointer-events-none">
+    <div className="relative w-full h-full flex justify-center">
+      {/* Personnage centré et superposé */}
+      <img
+        src={question.img}
+        alt="Personnage"
+        className="relative z-10 w-auto max-w-[60%] lg:max-w-[50%] h-auto object-contain drop-shadow-2xl pointer-events-none"
+        style={{ 
+          transform: 'translateY(-20%)',
+          maxHeight: '75vh'
+        }}
+      />
+      {/* Table en bas */}
+      <img
+        src="assets/img/table.PNG"
+        alt="Bureau"
+        className="absolute bottom-0 left-0 w-full h-auto z-20 pointer-events-none"
+      />
+    </div>
+  </div>
+</div>
       </div>
     </div><Layout /></>
   );
