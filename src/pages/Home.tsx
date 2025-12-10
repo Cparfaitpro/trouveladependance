@@ -35,7 +35,7 @@ export default function Home() {
             <span className="text-white">Trouve la</span> Dépendance
           </h1>
           <p className="text-slate-300 text-lg md:text-xl leading-relaxed">
-            Trouve la Dépendance est un jeu intéractif où l'objectif est de trouver l'addiction d'une personne, grâce à vos connaissances et les indices que vous disposez.
+            Trouve le produit est un jeu intéractif où l'objectif est de trouver le produit consommée par une personne, grâce à vos connaissances et les indices que vous disposez.
           </p>
         </div>
 

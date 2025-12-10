@@ -126,7 +126,7 @@ export const questions: Question[] = [
         img: "assets/img/ema.PNG"
       },{
         id: 7,
-        text: "« Bonjour, j’ai besoin d’aide j’essaye d’arrêter et je vais souvent voir un groupe de parole. »",
+        text: "« Bonjour, j’ai besoin d’aide j’essaie d’arrêter et je vais souvent voir un groupe de parole. »",
         type: 'QCU',
         options: [
           "Alcool",
@@ -183,7 +183,7 @@ export const questions: Question[] = [
         img: "assets/img/remi.PNG"
       },{
         id: 10,
-        text: "« Bonjour, je dois passer ici car je n’arrête pas d’avoir des problème avec la justice. Je passe au tribunal dans 1 semaine. »",
+        text: "« Bonjour, je dois passer ici car je n’arrête pas d’avoir des problèmes avec la justice. Je passe au tribunal dans 1 semaine. »",
         type: 'QCU',
         options: [
           "Alcool",
@@ -201,7 +201,7 @@ export const questions: Question[] = [
         img: "assets/img/jeanb.PNG"
       },{
         id: 11,
-        text: "« Bonjour, j’aurais besoin de renseignement car je tombe malade rapidement et je tousse tout le temps. »",
+        text: "« Bonjour, j’aurais besoin de renseignements car je tombe malade rapidement et je tousse tout le temps. »",
         type: 'QCU',
         options: [
           "Alcool",
@@ -220,7 +220,7 @@ export const questions: Question[] = [
         img: "assets/img/anna.PNG"
       },{
         id: 12,
-        text: "« Bonjour, j’ai un peu honte, je consomme une drogue excitante pour tenir face au travail. »",
+        text: "« Bonjour, j’ai un peu honte, je consomme une drogue excitante pour tenir le rythme au travail. »",
         type: 'QCU',
         options: [
           "Alcool",
