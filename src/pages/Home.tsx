@@ -32,7 +32,7 @@ export default function Home() {
         {/* Titre principal */}
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">
-            <span className="text-white">Trouve la</span> Dépendance
+            <span className="text-white">Trouve le</span> Produit
           </h1>
           <p className="text-slate-300 text-lg md:text-xl leading-relaxed">
             Trouve le produit est un jeu intéractif où l'objectif est de trouver le produit consommée par une personne, grâce à vos connaissances et les indices que vous disposez.
